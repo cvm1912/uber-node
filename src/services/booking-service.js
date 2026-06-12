@@ -1,4 +1,6 @@
 const bookingRepository = require('../repositories/booking-repository');
+const locationService = require('./location-service');
+
 const { haversineDistance } = require('../utils/distance');
 
 const BASIC_FARE = 50;
@@ -9,6 +11,8 @@ const createBooking = async ({ passengerId, source, destination }) => {
         source.latitude, source.longitude,
         destination.latitude, destination.longitude
     );
+
+
 
     const fare = BASIC_FARE + distance * RATE_PER_KM;
 
@@ -22,4 +26,14 @@ const createBooking = async ({ passengerId, source, destination }) => {
     });
 };
 
-module.exports = { createBooking };
+
+
+const nearestDriver = async (latitude, longitude, radius = 5) => {
+    const nearByDrivers = await locationService.findNearbyDrivers(
+         parseFloat(latitude), parseFloat(longitude), parseFloat(radius)
+    );
+    return nearByDrivers;
+}
+
+
+module.exports = { createBooking, nearestDriver };

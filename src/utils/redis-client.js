@@ -1,17 +1,12 @@
-const redis = require('redis')
+const redis = require('redis');
 const dotenv = require('dotenv');
-const { model } = require('mongoose');
+dotenv.config();
 
 const redisClient = redis.createClient();
-redisClient.on('connect', ()=>{
-    cosole.log('Connected to redis')
-})
 
-redisClient.on('error',()=>{
-    console.log('Error in redis')
-})
+redisClient.on('connect', () => console.log('Connected to redis'));
+redisClient.on('error', (err) => console.log('Redis error', err));
 
 redisClient.connect();
 
-model.exports = {redisClient}
-
+module.exports = { redisClient };

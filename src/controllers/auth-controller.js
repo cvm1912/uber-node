@@ -12,7 +12,17 @@ const register = async (req, res) => {
 const login = async (req, res) => {
     try {
         const result = await authService.login(req.body);
-        res.status(200).json(result);
+        res.status(200).json({
+           
+            user: {
+                id: result.id,
+                name: result.name,
+                email: result.email,
+                role: result.role
+                
+            },
+             token: result.token,
+        });
     } catch (err) {
         res.status(401).json({ message: err.message });
     }
